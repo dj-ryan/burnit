@@ -1,5 +1,6 @@
 // ---------------------------------------------------------------------------
 // burnit.cpp : A modified version of Pol Marcet's Prime Sieve
+// Created by David Ryan
 // ---------------------------------------------------------------------------
 
 #include <chrono>
@@ -122,28 +123,8 @@ public:
         }
     }
 
-    // printResults
-    //
-    // Displays stats about what was found as well as (optionally) the primes themselves
-
-    void printResults(bool showResults, double duration, size_t passes, size_t threads) const
+    void printResults(double duration, size_t passes, size_t threads) const
     {
-        if (showResults)
-            cout << "2, ";
-
-        size_t count = (Bits.size() >= 2); // Count 2 as prime if in range
-        for (uint64_t num = 3; num <= Bits.size(); num += 2)
-        {
-            if (Bits.get(num))
-            {
-                if (showResults)
-                    cout << num << ", ";
-                count++;
-            }
-        }
-
-        if (showResults)
-            cout << "\n";
 
         cout << "Passes: " << passes << ", "
              << "Threads: " << threads << ", "
@@ -160,7 +141,6 @@ int main(int argc, char **argv)
     uint64_t ullLimitRequested = 0;
     auto cThreadsRequested = 0;
     auto cSecondsRequested = 0;
-    auto bPrintPrimes = false;
     auto keepGoing = false;
 
     // Process command-line args
@@ -169,7 +149,7 @@ int main(int argc, char **argv)
     {
         if (*i == "-h" || *i == "--help")
         {
-            cout << "Syntax: " << argv[0] << " [-t,--threads threads] [-s,--seconds seconds] [-l,--limit limit] [-h] " << endl;
+            cout << "Syntax: " << argv[0] << " [-t,--threads threads] [-s,--seconds seconds] [-l,--limit limit] [-k,-keepgoing] [-h] " << endl;
             return 0;
         }
         else if (*i == "-t" || *i == "--threads")
@@ -187,10 +167,6 @@ int main(int argc, char **argv)
             i++;
             ullLimitRequested = (i == args.end()) ? 0LL : max((long long)1, atoll(i->c_str()));
         }
-        else if (*i == "-p" || *i == "--print")
-        {
-            bPrintPrimes = true;
-        }
         else if (*i == "-k" || *i == "--keepgoing")
         {
             keepGoing = true;
@@ -207,13 +183,20 @@ int main(int argc, char **argv)
     auto cThreads = (cThreadsRequested ? cThreadsRequested : thread::hardware_concurrency());
     auto llUpperLimit = (ullLimitRequested ? ullLimitRequested : DEFAULT_UPPER_LIMIT);
 
+    if(keepGoing) {
+printf("Computing primes to %llu on %d thread%s until exited with ^c (ctrl c).\n",
+           (unsigned long long)llUpperLimit,
+           cThreads,
+           cThreads == 1 ? "" : "s"
+    } else {
+
     printf("Computing primes to %llu on %d thread%s for %d second%s.\n",
            (unsigned long long)llUpperLimit,
            cThreads,
            cThreads == 1 ? "" : "s",
            cSeconds,
            cSeconds == 1 ? "" : "s");
-
+    }
     double duration;
 
     auto tStart = steady_clock::now();
@@ -250,7 +233,7 @@ int main(int argc, char **argv)
 
     checkSieve.runSieve();
 
-    checkSieve.printResults(bPrintPrimes, duration, cPasses, cThreads);
+    checkSieve.printResults(duration, cPasses, cThreads);
 
 
     return 0;
