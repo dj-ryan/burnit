@@ -126,11 +126,14 @@ public:
     void printResults(double duration, size_t passes, size_t threads) const
     {
 
-        cout << "Passes: " << passes << ", "
+        cout << "==========" << "\n"
+        << "COMPLEATED" << "\n"
+        << "==========" << "\n"
+        << "Passes: " << passes << ", "
              << "Threads: " << threads << ", "
              << "Time: " << duration << ", "
-             << "Average: " << duration / passes << ", "
-             << "Limit: " << Bits.size() << ", "
+             << "Average: " << duration / passes  << ", "
+             << "Limit: " << Bits.size()
              << "\n";
     }
 };
@@ -183,19 +186,22 @@ int main(int argc, char **argv)
     auto cThreads = (cThreadsRequested ? cThreadsRequested : thread::hardware_concurrency());
     auto llUpperLimit = (ullLimitRequested ? ullLimitRequested : DEFAULT_UPPER_LIMIT);
 
-    if(keepGoing) {
-printf("Computing primes to %llu on %d thread%s until exited with ^c (ctrl c).\n",
-           (unsigned long long)llUpperLimit,
-           cThreads,
-           cThreads == 1 ? "" : "s");
-    } else {
+    if (keepGoing)
+    {
+        printf("Computing primes to %llu on %d thread%s until exited with ^c (ctrl c).\n",
+               (unsigned long long)llUpperLimit,
+               cThreads,
+               cThreads == 1 ? "" : "s");
+    }
+    else
+    {
 
-    printf("Computing primes to %llu on %d thread%s for %d second%s.\n",
-           (unsigned long long)llUpperLimit,
-           cThreads,
-           cThreads == 1 ? "" : "s",
-           cSeconds,
-           cSeconds == 1 ? "" : "s");
+        printf("Computing primes to %llu on %d thread%s for %d second%s.\n",
+               (unsigned long long)llUpperLimit,
+               cThreads,
+               cThreads == 1 ? "" : "s",
+               cSeconds,
+               cSeconds == 1 ? "" : "s");
     }
     double duration;
 
@@ -206,18 +212,21 @@ printf("Computing primes to %llu on %d thread%s until exited with ^c (ctrl c).\n
         threads[i] = std::thread([i, keepGoing, cSeconds, &l_passes, &tStart](size_t llUpperLimit)
                                  {
                                      l_passes[i] = 0;
-                                     if(keepGoing) {
-                                     while (true)
+                                     if (keepGoing)
                                      {
-                                         prime_sieve(llUpperLimit).runSieve();
-                                         ++l_passes[i];
-                                     }    
-                                     } else {
-                                     while (duration_cast<seconds>(steady_clock::now() - tStart).count() < cSeconds)
-                                     {
-                                         prime_sieve(llUpperLimit).runSieve();
-                                         ++l_passes[i];
+                                         while (true)
+                                         {
+                                             prime_sieve(llUpperLimit).runSieve();
+                                             ++l_passes[i];
+                                         }
                                      }
+                                     else
+                                     {
+                                         while (duration_cast<seconds>(steady_clock::now() - tStart).count() < cSeconds)
+                                         {
+                                             prime_sieve(llUpperLimit).runSieve();
+                                             ++l_passes[i];
+                                         }
                                      }
                                  },
                                  llUpperLimit);
@@ -234,7 +243,6 @@ printf("Computing primes to %llu on %d thread%s until exited with ^c (ctrl c).\n
     checkSieve.runSieve();
 
     checkSieve.printResults(duration, cPasses, cThreads);
-
 
     return 0;
 }

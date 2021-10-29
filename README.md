@@ -5,7 +5,7 @@
 ## Compilation and execution
 
 On windows the command prompt script can be used to compile and execute the programed with the default settings.
-After that the executable can be run with different settings using the flags listed below.
+After that, the executable can be run with different settings using the flags listed below.
 If not on windows you can follow the compilation outline in the command prompt script.
 Must be compiled with `-std=c++17`
 
