@@ -9,6 +9,12 @@ After that, the executable can be run with different settings using the flags li
 If not on windows you can follow the compilation outline in the command prompt script.
 Must be compiled with `-std=c++17`
 
+## Algorithm
+
+The algorithm that is implements to produce a heavy load on the CPU is the [Sieve of Eratosthenes](https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes). This very simple algorithm calculates (or rather finds) all prime numbers up to a pre-determined limit. This is done by - "iteratively marking as composite (i.e., not prime) the multiples of each prime, starting with the first prime number, 2. The multiples of a given prime are generated as a sequence of numbers starting from that prime, with constant difference between them that is equal to that prime." ~ Wikipedia
+
+
+
 ## Flags
 
 ```
