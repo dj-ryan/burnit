@@ -1,6 +1,6 @@
 // ---------------------------------------------------------------------------
-// burnit.cpp : A modified version of Pol Marcet's Prime Sieve
-// Created by David Ryan
+// burnit.cpp
+// author: David Ryan
 // ---------------------------------------------------------------------------
 
 #include <chrono>
@@ -187,7 +187,7 @@ int main(int argc, char **argv)
 printf("Computing primes to %llu on %d thread%s until exited with ^c (ctrl c).\n",
            (unsigned long long)llUpperLimit,
            cThreads,
-           cThreads == 1 ? "" : "s"
+           cThreads == 1 ? "" : "s");
     } else {
 
     printf("Computing primes to %llu on %d thread%s for %d second%s.\n",
