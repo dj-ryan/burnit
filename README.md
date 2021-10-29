@@ -1,6 +1,6 @@
 # burnit 🔥🔥
 
- A simple CPU stress tester.
+ A simple CPU stress tester written in c++.
 
 ## Compilation and execution
 
