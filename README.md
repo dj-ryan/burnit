@@ -1,0 +1,2 @@
+# burnit
+CPU stress tester
