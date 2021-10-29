@@ -6,8 +6,8 @@
 
 On windows the command prompt script can be used to compile and execute the programed with the default settings.
 After that, the executable can be run with different settings using the flags listed below.
-If not on windows you can follow the compilation outline in the command prompt script.
-Must be compiled with `-std=c++17`
+If on a unix platform you can use the shell script to do the same.
+If you are compiling yourself it must be compiled with `-std=c++17`
 
 ## Algorithm
 
